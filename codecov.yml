@@ -1,0 +1,12 @@
+# See: https://github.com/codecov/support/wiki/Codecov-Yaml#full-yaml
+coverage:
+  precision: 2
+  round: nearest
+
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 60
+    changes: false
+    patch: false
