@@ -17,7 +17,8 @@ except ImportError:
 kwargs = {}
 kwargs = dict(
     version='0+d' + datetime.date.today().strftime('%Y%m%d'),
-    setup_requires=['pytest-runner'], )
+    setup_requires=['pytest-runner'],
+)
 
 TEST_REQUIRES = ['pytest-cov', 'pytest-xdist']
 

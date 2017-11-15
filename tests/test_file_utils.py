@@ -11,3 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import sca_tools.file_utils as futils
+
+
+def test_get_file_directory():
+    dir_ = futils.get_file_directory('sca_tools/bar/foo.py')
+    assert dir_.endswith('sca_tools/bar')
+
+
+def test_get_file_basename():
+    basename = futils.get_file_basename('sca_tools/bar/foo.py')
+    assert basename.endswith('foo')

@@ -1,5 +1,8 @@
 ## Scalability Analysis Tools
 
+[![Build Status](https://travis-ci.org/mookerji/sca_tools.svg?branch=master)](https://travis-ci.org/mookerji/sca_tools)
+[![codecov](https://codecov.io/gh/mookerji/sca_tools/branch/master/graph/badge.svg)](https://codecov.io/gh/mookerji/sca_tools)
+
 `sca_tools` is a Python library and set of command line utilities for
 quantifying software scalability, based on Neil Gunther's
 [Universal Scalability Law](http://www.perfdynamics.com/Manifesto/USLscalability.html).
@@ -66,7 +69,6 @@ Graphically:
   Services*. Springer, Heidelberg, Germany, 1st edition, 2007.
 - Baron Schwartz. *Practical Scalability Analysis with the Universal
   Scalability Law*. VividCortex, November 2015.
-
 
 ## License
 

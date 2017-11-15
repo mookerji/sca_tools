@@ -21,6 +21,10 @@ import sca_tools.file_utils as futils
 import sca_tools.usl as usl
 
 
+class UnsupportedModelException(Exception):
+    pass
+
+
 @click.command()
 @click.option('--load_column', default='load')
 @click.option('--throughput_column', default='throughput')
@@ -39,11 +43,13 @@ def main(load_column, throughput_column, throughput_errors_column, model_type,
         model_fit = model.fit(data=df_spec.throughput.values,
                               load=df_spec.load.values, lambda_=1000,
                               sigma_=0.1, kappa=0.001)
-        graphs = usl.generate_graphs(model_fit, df_spec)
+        graphs = usl.generate_graphs(model_fit, df_spec, title=basename,
+                                     xlabel=load_column,
+                                     ylabel=throughput_column)
         graph.render_graphs(graphs, basename, output_directory)
         usl.summarize(model_fit)
     else:
-        assert False
+        raise UnsupportedModelException()
     return 1
 
 

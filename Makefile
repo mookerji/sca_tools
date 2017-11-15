@@ -11,3 +11,11 @@ test:
 
 .PHONY: ci
 ci: test
+
+.PHONY: format
+format:
+	find . -type f -name "*.py" | xargs yapf --in-place
+
+.PHONY: dist
+dist:
+	python setup.py sdist upload -r pypi

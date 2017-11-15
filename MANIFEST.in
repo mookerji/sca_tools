@@ -1,0 +1,9 @@
+include *.cfg
+include *.md
+include *.py
+include *.sh
+include *.txt
+include *.csv
+include .gitignore
+include LICENSE
+recursive-include sca_tools/ *.py

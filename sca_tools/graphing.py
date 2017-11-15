@@ -27,7 +27,11 @@ class GraphResult(object):
     def to_png(self, basename, output_directory):
         filename = "%s/%s-%s.png" % (output_directory, basename, self.name)
         logger.debug('Writing to image to %s' % filename)
-        self.artifact.get_figure().savefig(filename)
+        if isinstance(self.artifact, list) and len(self.artifact) > 0:
+            assert len(self.artifact) == 1
+            self.artifact[0].get_figure().savefig(filename)
+        else:
+            self.artifact.get_figure().savefig(filename)
 
 
 def render_graphs(graphs, basename, output_directory):
