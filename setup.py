@@ -20,7 +20,11 @@ kwargs = dict(
     setup_requires=['pytest-runner'],
 )
 
-TEST_REQUIRES = ['pytest-cov', 'pytest-xdist']
+TEST_REQUIRES = [
+    'pytest-cov',
+    'pytest-xdist',
+    'pytest-datafiles',
+]
 
 INSTALL_REQUIRES = [
     'pytest>=2.8.0',

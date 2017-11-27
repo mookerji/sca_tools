@@ -28,15 +28,21 @@ class UnsupportedModelException(Exception):
 @click.command()
 @click.option('--load_column', default='load')
 @click.option('--throughput_column', default='throughput')
-@click.option('--throughput_errors_column', default='throughput_errors')
+@click.option('--throughput_errors_column', default=None)
 @click.option('--model_type', default='usl')
+@click.option('--output_directory', default=None)
 @click.argument('filename')
 def main(load_column, throughput_column, throughput_errors_column, model_type,
-         filename):
+         output_directory, filename):
     df_spec = dat.read_frame(filename)
     df_spec._load_col = load_column
     df_spec._tput_col = throughput_column
-    output_directory = futils.get_file_directory(filename)
+    if throughput_errors_column:
+        raise NotImplementedError()
+    if not output_directory:
+        output_directory_ = futils.get_file_directory(filename)
+    else:
+        output_directory_ = output_directory
     basename = futils.get_file_basename(filename)
     if model_type == 'usl':
         model = usl.USLModel()
@@ -46,7 +52,7 @@ def main(load_column, throughput_column, throughput_errors_column, model_type,
         graphs = usl.generate_graphs(model_fit, df_spec, title=basename,
                                      xlabel=load_column,
                                      ylabel=throughput_column)
-        graph.render_graphs(graphs, basename, output_directory)
+        graph.render_graphs(graphs, basename, output_directory_)
         usl.summarize(model_fit)
     else:
         raise UnsupportedModelException()

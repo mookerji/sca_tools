@@ -13,45 +13,11 @@
 # limitations under the License.
 
 import numpy as np
-import pandas as pd
 import pytest
 
 import sca_tools.usl as usl
 
 DEFAULT_PARAMS = {'lambda_': 90, 'sigma_': 0.03, 'kappa': 0.0001}
-
-# From fixtures/specsdm91.csv
-DEFAULT_DATA = pd.DataFrame.from_records({
-    1: {
-        'load': 1.0,
-        'throughput': 64.9
-    },
-    2: {
-        'load': 18.0,
-        'throughput': 995.9
-    },
-    3: {
-        'load': 36.0,
-        'throughput': 1652.4
-    },
-    4: {
-        'load': 72.0,
-        'throughput': 1853.2
-    },
-    5: {
-        'load': 108.0,
-        'throughput': 1828.9
-    },
-    6: {
-        'load': 144.0,
-        'throughput': 1775.0
-    },
-    7: {
-        'load': 216.0,
-        'throughput': 1702.2
-    }
-}, ).T
-DEFAULT_DATA['throughput_error'] = DEFAULT_DATA['throughput'] * 0.05
 
 
 def test_usl_func_eval():
@@ -68,12 +34,11 @@ def test_usl_func_eval():
 
 
 @pytest.fixture
-def usl_func_fit():
-    df_spec = DEFAULT_DATA
+def usl_func_fit(default_data):
     model = usl.USLModel()
-    model_fit = model.fit(data=df_spec.throughput.values,
-                          load=df_spec.load.values, lambda_=1000, sigma_=0.1,
-                          kappa=0.001)
+    model_fit = model.fit(data=default_data.throughput.values,
+                          load=default_data.load.values, lambda_=1000,
+                          sigma_=0.1, kappa=0.001)
     return model_fit
 
 
@@ -126,7 +91,7 @@ def test_queue_size_from_latency(usl_func_fit):
         4094.63127153,
     )
     model = usl.QueueSizeLatencyModel()
-    assert np.isclose(model.eval(latency=20, **DEFAULT_PARAMS), 4021.50102647)
+    assert np.isclose(model.eval(latency=20, **DEFAULT_PARAMS), 4094.631271532)
     assert np.isclose(
         model.eval(usl_func_fit.params, latency=20),
         4021.50102647,

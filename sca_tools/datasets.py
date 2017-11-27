@@ -32,5 +32,9 @@ class Dataset(object):
         return self._data[self._tput_col]
 
 
-def read_frame(filename, ):
-    return Dataset(pd.read_csv(filename, infer_datetime_format=True, index_col=0,))
+def read_frame(filename, load_col=None, tput_col=None):
+    return Dataset(
+        pd.read_csv(filename, infer_datetime_format=True, index_col=0),
+        load_col,
+        tput_col,
+    )

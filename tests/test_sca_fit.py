@@ -12,10 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from click.testing import CliRunner
 
-def test_main():
-    assert False
+import os
+import pytest
+
+import sca_tools.sca_fit as sca_fit
+
+FIXTURE_DIR = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    '../fixtures',
+)
 
 
-def test_invalid_model():
-    assert False
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, 'specsdm91.csv'),
+    on_duplicate='ignore',
+)
+def test_main(datafiles):
+    runner = CliRunner()
+    for datafile in datafiles.listdir():
+        args = [
+            '--load_column',
+            'load',
+            '--throughput_column',
+            'throughput',
+            '--model_type',
+            'usl',
+            str(datafile),
+        ]
+        result = runner.invoke(sca_fit.main, args)
+        assert result.exit_code == 0
+        assert len(result.output) > 0
+        assert '----- Summary -----' in result.output
+
+
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, 'specsdm91.csv'),
+    on_duplicate='ignore',
+)
+def test_invalid_model(datafiles):
+    runner = CliRunner()
+    for datafile in datafiles.listdir():
+        args = [
+            '--load_column',
+            'load',
+            '--throughput_column',
+            'throughput',
+            '--model_type',
+            'foo',
+            str(datafile),
+        ]
+        result = runner.invoke(sca_fit.main, args)
+        assert result.exit_code == -1
