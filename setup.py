@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 try:
-    import datetime
     import sys
+    import versioneer
     reload(sys).setdefaultencoding("UTF-8")
 except:
     pass
@@ -13,12 +13,6 @@ try:
 except ImportError:
     print 'Please install or upgrade setuptools or pip to continue.'
     sys.exit(1)
-
-kwargs = {}
-kwargs = dict(
-    version='0+d' + datetime.date.today().strftime('%Y%m%d'),
-    setup_requires=['pytest-runner'],
-)
 
 TEST_REQUIRES = [
     'pytest-cov',
@@ -40,6 +34,8 @@ INSTALL_REQUIRES = [
 
 setup(
     name='sca_tools',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description='Scalability Analysis Tools',
     author='Bhaskar Mookerji',
     author_email='mookerji@gmail.com',
@@ -65,4 +61,5 @@ setup(
             'usl=sca_tools.sca_fit:main',
         ],
     },
-    **kwargs)
+    setup_requires=['pytest-runner'],
+)
