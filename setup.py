@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 try:
+    import os
     import sys
     import versioneer
     reload(sys).setdefaultencoding("UTF-8")
@@ -32,11 +33,17 @@ INSTALL_REQUIRES = [
     'lmfit',
 ] + TEST_REQUIRES
 
+
+cwd = os.path.abspath(os.path.dirname(__file__))
+with open(cwd + '/README.md') as f:
+  readme = f.read().strip()
+
 setup(
     name='sca_tools',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description='Scalability Analysis Tools',
+    long_description=readme,
     author='Bhaskar Mookerji',
     author_email='mookerji@gmail.com',
     maintainer='Bhaskar Mookerji',
