@@ -5,6 +5,9 @@ python:
 
 cache: pip
 
+env:
+  - DISPLAY=:99.0
+
 install:
   - make install
 
