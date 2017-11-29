@@ -8,7 +8,7 @@ install:
 
 .PHONY: test
 test:
-	py.test -v --cov=./ tests/
+	py.test -v --cov=sca_tools tests/
 
 .PHONY: ci
 ci: test
