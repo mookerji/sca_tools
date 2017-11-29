@@ -13,6 +13,8 @@
 # limitations under the License.
 
 import logging
+import matplotlib
+matplotlib.use('Agg')
 import os
 
 logging.basicConfig(level=os.environ.get('LOG_LEVEL', 'INFO'))
