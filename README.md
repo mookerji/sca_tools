@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mookerji/sca_tools.svg?branch=master)](https://travis-ci.org/mookerji/sca_tools)
 [![codecov](https://codecov.io/gh/mookerji/sca_tools/branch/master/graph/badge.svg)](https://codecov.io/gh/mookerji/sca_tools)
+[![PyPI version](https://badge.fury.io/py/sca-tools.svg)](https://badge.fury.io/py/sca-tools)
 
 `sca_tools` is a Python library and set of command line utilities for
 quantifying software scalability, based on Neil Gunther's
