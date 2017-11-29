@@ -7,3 +7,5 @@ include *.csv
 include .gitignore
 include LICENSE
 recursive-include sca_tools/ *.py
+include versioneer.py
+include sca_tools/_version.py
