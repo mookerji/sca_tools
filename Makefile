@@ -20,4 +20,6 @@ format:
 
 .PHONY: dist
 dist:
-	python setup.py sdist upload -r pypi
+	pip install 'twine>=1.9.1' > /dev/null
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
