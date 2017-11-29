@@ -6,7 +6,7 @@ python:
 cache: pip
 
 install:
-  - make install
+  - make dev_install
 
 script:
   - make ci

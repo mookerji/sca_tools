@@ -4,11 +4,14 @@ all: install
 .PHONY: install
 install:
 	pip install -r requirements.txt
-	pip install codecov
 
-.PHONY: test
+.PHONY: dev_install
+dev_install: install
+	pip install -r requirements-dev.txt
+
+.PHONY: dev_install
 test:
-	py.test -v --cov=sca_tools tests/
+	py.test
 
 .PHONY: ci
 ci: test
@@ -16,10 +19,16 @@ ci: test
 
 .PHONY: format
 format:
-	find . -type f -name "*.py" | xargs yapf --in-place
+	find sca_tools tests -type f -name "*.py" ! -name "_version. py" \
+		| xargs yapf --in-place
+
+.PHONY: lint
+lint:
+	pylint -j4 sca_tools tests || true
+	flake8 sca_tools tests || true
+	pydocstyle sca_tools tests || true
 
 .PHONY: dist
 dist:
-	pip install 'twine>=1.9.1' > /dev/null
 	python setup.py sdist bdist_wheel
 	twine upload dist/*
