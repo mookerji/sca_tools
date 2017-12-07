@@ -19,7 +19,7 @@ ci: test
 
 .PHONY: format
 format:
-	find sca_tools tests -type f -name "*.py" ! -name "_version. py" \
+	find sca_tools tests -type f -name "*.py" ! -name "_version.py" \
 		| xargs yapf --in-place
 
 .PHONY: lint

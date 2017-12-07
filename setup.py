@@ -65,7 +65,8 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'usl=sca_tools.sca_fit:main',
+            'sca_fit=sca_tools.sca_fit:main',
+            'sca_agg=sca_tools.sca_agg:main',
         ],
     },
     setup_requires=['pytest-runner'],

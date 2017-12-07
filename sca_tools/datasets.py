@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import numpy as np
 import pandas as pd
 
 
@@ -27,9 +28,16 @@ class Dataset(object):
         return self._data[self._load_col]
 
     @property
+    def has_fixed_load(self):
+        return np.isclose(self.load.std(), 0)
+
+    @property
     def throughput(self):
         assert self._tput_col is not None
         return self._data[self._tput_col]
+
+    def to_csv(self, filename):
+        return self._data.sort_values(by=self._load_col).to_csv(filename)
 
 
 def read_frame(filename, load_col=None, tput_col=None):
@@ -38,3 +46,16 @@ def read_frame(filename, load_col=None, tput_col=None):
         load_col,
         tput_col,
     )
+
+
+def aggregate_frames(dfs, load_column, throughput_column,
+                     throughput_errors_column):
+    records = []
+    for df in dfs:
+        assert df.has_fixed_load
+        records.append({
+            load_column: df.load.mean(),
+            throughput_column: df.throughput.mean(),
+            throughput_errors_column: df.throughput.std(),
+        })
+    return Dataset(pd.DataFrame(records), load_column, throughput_column)
