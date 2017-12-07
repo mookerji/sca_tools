@@ -65,3 +65,25 @@ def test_invalid_model(datafiles):
         ]
         result = runner.invoke(sca_fit.main, args)
         assert result.exit_code == -1
+
+
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, 'sysbench_cpu_60sec_aggregated.csv'),
+    on_duplicate='ignore',
+)
+def test_errors_model(datafiles):
+    runner = CliRunner()
+    for datafile in datafiles.listdir():
+        args = [
+            '--load_column',
+            'load',
+            '--throughput_column',
+            'throughput',
+            '--throughput_errors_column',
+            'throughput_stddev',
+            '--model_type',
+            'foo',
+            str(datafile),
+        ]
+        result = runner.invoke(sca_fit.main, args)
+        assert result.exit_code == -1

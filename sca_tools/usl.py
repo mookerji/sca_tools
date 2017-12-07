@@ -20,6 +20,7 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import pandas as pd
 
 import sca_tools.graphing as graph
 
@@ -139,7 +140,7 @@ def calc_throughput(usl_fit, load):
     return usl_fit.eval(load=load)
 
 
-def plot_throughput(usl_fit, load, throughput, title, xlabel, ylabel):
+def plot_throughput(usl_fit, load, throughput, errors, title, xlabel, ylabel):
     confidence_band = usl_fit.eval_uncertainty(load, sigma=2)
     inputs = np.arange(load.min(), load.max(), 1)
     best_fit_ = usl_fit.eval(load=inputs)
@@ -148,7 +149,10 @@ def plot_throughput(usl_fit, load, throughput, title, xlabel, ylabel):
                           usl_fit.best_fit + confidence_band, color='#888888',
                           alpha=0.5)
     plt.plot(inputs, best_fit_)
-    plt.scatter(load, throughput)
+    if isinstance(errors, pd.Series) and errors.any():
+        plt.errorbar(load, throughput, yerr=errors, fmt='o', ecolor='b')
+    else:
+        plt.scatter(load, throughput)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -269,7 +273,7 @@ def summarize(usl_fit):
 def generate_graphs(model_fit, data, title, xlabel, ylabel):
     result = []
     all_throughput = plot_throughput(model_fit, data.load, data.throughput,
-                                     title, xlabel, ylabel)
+                                     data.error, title, xlabel, ylabel)
     result.append(graph.GraphResult(name='throughput_model',
                                     artifact=all_throughput))
     efficiency = plot_efficiency(model_fit, data.load, data.throughput)
