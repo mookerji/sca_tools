@@ -17,6 +17,8 @@ from StringIO import StringIO
 import pandas as pd
 import pytest
 
+import sca_tools.datasets as dset
+
 
 @pytest.fixture(scope="module")
 def default_data():
@@ -63,3 +65,10 @@ def default_data_as_csv(default_data):
     default_data.to_csv(buf)
     buf.seek(0)
     return buf
+
+
+@pytest.fixture(scope="module")
+def default_data_as_df(default_data_as_csv):
+    df = dset.read_frame(default_data_as_csv, 'load', 'throughput')
+    default_data_as_csv.seek(0)
+    return df

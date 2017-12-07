@@ -106,6 +106,7 @@ venv.bak/
 *.DS_Store
 notebooks
 notes
+pdfs
 
 fixtures/*.png
 *.ipynb
