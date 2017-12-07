@@ -28,7 +28,7 @@ class UnsupportedModelException(Exception):
 @click.command()
 @click.option('--load_column', default='load')
 @click.option('--throughput_column', default='throughput')
-@click.option('--throughput_errors_column', default=None)
+@click.option('--throughput_errors_column', default='throughput_stddev')
 @click.option('--model_type', default='usl')
 @click.option('--output_directory', default=None)
 @click.argument('filename')
@@ -37,8 +37,7 @@ def main(load_column, throughput_column, throughput_errors_column, model_type,
     df_spec = dat.read_frame(filename)
     df_spec._load_col = load_column
     df_spec._tput_col = throughput_column
-    if throughput_errors_column:
-        raise NotImplementedError()
+    df_spec._tput_err_col = throughput_errors_column
     if not output_directory:
         output_directory_ = futils.get_file_directory(filename)
     else:
@@ -46,9 +45,15 @@ def main(load_column, throughput_column, throughput_errors_column, model_type,
     basename = futils.get_file_basename(filename)
     if model_type == 'usl':
         model = usl.USLModel()
+        if df_spec.error is not None:
+            weights = df_spec.weights
+        else:
+            weights = None
+        # TODO: Don't pass weights to nlopt fit until the results are
+        # within the realm of my understanding.
         model_fit = model.fit(data=df_spec.throughput.values,
                               load=df_spec.load.values, lambda_=1000,
-                              sigma_=0.1, kappa=0.001)
+                              sigma_=0.1, kappa=0.001, weights=None)
         graphs = usl.generate_graphs(model_fit, df_spec, title=basename,
                                      xlabel=load_column,
                                      ylabel=throughput_column)

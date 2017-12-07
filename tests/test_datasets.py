@@ -43,15 +43,19 @@ def test_dataset_read_frame(default_data_as_df):
 )
 def test_dataset_aggregate(datafiles):
     for datafile in datafiles.listdir():
-        df = dset.read_frame(datafile, 'threads', 'throughput')
+        df = dset.read_frame(
+            datafile,
+            'threads',
+            'throughput',
+            'throughput_stddev',
+        )
         result = dset.aggregate_frames(
             dfs=[df],
             load_column=df._load_col,
             throughput_column=df._tput_col,
-            throughput_errors_column=df._tput_col + '_stddev',
+            throughput_errors_column=df._tput_err_col,
         )
         assert isinstance(result, dset.Dataset)
         assert np.allclose(result.load.values, [64])
         assert np.allclose(result.throughput.values, [27506.885])
-        assert np.allclose(result._data['throughput_stddev'].values,
-                           [1493.63347])
+        assert np.allclose(result.error.values, [1493.63347])
