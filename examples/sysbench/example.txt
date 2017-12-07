@@ -1,0 +1,39 @@
+sysbench 1.0.8 (using system LuaJIT 2.0.4)
+
+Running the test with following options:
+Number of threads: 4096
+Report intermediate results every 1 second(s)
+Initializing random number generator from current time
+
+
+Prime numbers limit: 10000
+
+Initializing worker threads...
+
+Threads started!
+
+[ 1s ] thds: 4096 eps: 3002.41 lat (ms,99%): 320.17
+[ 2s ] thds: 4096 eps: 2997.10 lat (ms,99%): 707.07
+[ 3s ] thds: 4096 eps: 2988.99 lat (ms,99%): 1213.57
+[ 4s ] thds: 4096 eps: 3000.03 lat (ms,99%): 1678.14
+[ 5s ] thds: 4096 eps: 2991.98 lat (ms,99%): 2238.47
+[ 6s ] thds: 4096 eps: 2996.01 lat (ms,99%): 1771.29
+[ 7s ] thds: 4096 eps: 2998.99 lat (ms,99%): 5124.81
+[ 8s ] thds: 4096 eps: 2995.88 lat (ms,99%): 4055.23
+[ 9s ] thds: 4096 eps: 2994.13 lat (ms,99%): 4437.27
+[ 10s ] thds: 4096 eps: 2997.00 lat (ms,99%): 6360.91
+[ 11s ] thds: 4096 eps: 3001.96 lat (ms,99%): 5217.92
+[ 12s ] thds: 4096 eps: 2995.21 lat (ms,99%): 5607.61
+[ 13s ] thds: 4096 eps: 2987.67 lat (ms,99%): 3911.79
+[ 14s ] thds: 4096 eps: 2988.03 lat (ms,99%): 9452.83
+[ 15s ] thds: 4096 eps: 2997.17 lat (ms,99%): 11523.48
+[ 17s ] thds: 4096 eps: 2994.81 lat (ms,99%): 9284.15
+[ 18s ] thds: 4096 eps: 2994.20 lat (ms,99%): 6835.96
+[ 20s ] thds: 4096 eps: 3002.94 lat (ms,99%): 12609.11
+[ 22s ] thds: 4096 eps: 2998.62 lat (ms,99%): 10531.32
+[ 23s ] thds: 4096 eps: 3006.52 lat (ms,99%): 12384.09
+[ 25s ] thds: 4096 eps: 3003.70 lat (ms,99%): 4437.27
+[ 27s ] thds: 4096 eps: 3002.91 lat (ms,99%): 4683.57
+[ 28s ] thds: 4096 eps: 3008.09 lat (ms,99%): 4358.09
+[ 30s ] thds: 4096 eps: 3015.51 lat (ms,99%): 4437.27
+[ 30s ] thds: 4096 eps: 4597.70 lat (ms,99%): 4683.57
