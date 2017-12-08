@@ -1,3 +1,5 @@
+# pylint: disable=too-few-public-methods
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,25 +13,49 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Graphing utilities."""
 
 import logging
-import matplotlib
-matplotlib.use('Agg')
 import os
 
+import matplotlib
+matplotlib.use('Agg')
+
 logging.basicConfig(level=os.environ.get('LOG_LEVEL', 'INFO'))
-logger = logging.getLogger(__name__)
 
 
 class GraphResult(object):
+    """Container for a graphing artifact.
+
+    Parameters
+    ----------
+    name: str
+        Name of the artifact
+    artifact: str
+        Matplotlib Axes
+
+    Returns
+    -------
+    GraphResult
+    """
+
     def __init__(self, name, artifact):
         self.name = name
         self.artifact = artifact
 
     def to_png(self, basename, output_directory):
+        """Render artifact to a png file.
+
+        Parameters
+        ----------
+        basename: [str]
+            Prefix for filename
+        output_directory: str
+            Directory to write to
+        """
         filename = "%s/%s-%s.png" % (output_directory, basename, self.name)
-        logger.debug('Writing to image to %s' % filename)
-        if isinstance(self.artifact, list) and len(self.artifact) > 0:
+        logging.debug('Writing to image to %s', filename)
+        if isinstance(self.artifact, list) and self.artifact:
             assert len(self.artifact) == 1
             self.artifact[0].get_figure().savefig(filename)
         else:
@@ -37,5 +63,16 @@ class GraphResult(object):
 
 
 def render_graphs(graphs, basename, output_directory):
+    """
+    Parameters
+    ----------
+    graphs: [sca_tools.graphing.GraphResult]
+        Graph artifacts to render
+    basename: [str]
+        Prefix for filename
+    output_directory: str
+        Directory to write to
+
+    """
     for graph in graphs:
         graph.to_png(basename, output_directory)

@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import numpy as np
 import os
+
+import numpy as np
 import pytest
 
 import sca_tools.datasets as dset
@@ -25,14 +28,14 @@ FIXTURE_DIR = os.path.join(
 
 
 def test_dataset_read_frame(default_data_as_df):
-    df = default_data_as_df
-    assert isinstance(df, dset.Dataset)
+    frame = default_data_as_df
+    assert isinstance(frame, dset.Dataset)
     assert np.allclose(
-        df.load.values,
+        frame.load.values,
         [1., 18., 36., 72., 108., 144., 216.],
     )
     assert np.allclose(
-        df.throughput.values,
+        frame.throughput.values,
         [64.9, 995.9, 1652.4, 1853.2, 1828.9, 1775., 1702.2],
     )
 
@@ -43,17 +46,17 @@ def test_dataset_read_frame(default_data_as_df):
 )
 def test_dataset_aggregate(datafiles):
     for datafile in datafiles.listdir():
-        df = dset.read_frame(
+        frame = dset.read_frame(
             datafile,
             'threads',
             'throughput',
             'throughput_stddev',
         )
         result = dset.aggregate_frames(
-            dfs=[df],
-            load_column=df._load_col,
-            throughput_column=df._tput_col,
-            throughput_errors_column=df._tput_err_col,
+            frames=[frame],
+            load_column='threads',
+            throughput_column='throughput',
+            throughput_errors_column='throughput_stddev',
         )
         assert isinstance(result, dset.Dataset)
         assert np.allclose(result.load.values, [64])

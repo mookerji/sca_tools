@@ -25,7 +25,7 @@ format:
 .PHONY: lint
 lint:
 	pylint -j4 sca_tools tests || true
-	flake8 sca_tools tests || true
+	flake8 --exclude=_version.py sca_tools tests || true
 	pydocstyle sca_tools tests || true
 
 .PHONY: dist

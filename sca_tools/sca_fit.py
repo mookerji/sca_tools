@@ -1,3 +1,5 @@
+# pylint: disable=no-value-for-parameter,too-many-arguments
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,9 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""CLI entrypoint for sca_fit, a tool for fitting analyzing
+benchmarking trial data.
+
+"""
+
+import sys
 
 import click
-import sys
 
 import sca_tools.datasets as dat
 import sca_tools.graphing as graph
@@ -22,7 +29,7 @@ import sca_tools.usl as usl
 
 
 class UnsupportedModelException(Exception):
-    pass
+    """The requested model type is not supported by sca_fit."""
 
 
 @click.command()
@@ -34,10 +41,34 @@ class UnsupportedModelException(Exception):
 @click.argument('filename')
 def main(load_column, throughput_column, throughput_errors_column, model_type,
          output_directory, filename):
+    """sca_fit fits a scalability model to a load-throughput benchmarking
+    data.
+
+    Some examples!
+
+    Let's say we have a CSV file from a CPU throughput benchmark.
+
+    >>> cat aggregated.csv
+
+    ,threads,throughput,throughput_stddev
+    6,1.0,8272.55783333,90.5286256646
+    0,2.0,16589.7894915,277.689391919
+    9,4.0,27322.0743333,1076.90640997
+    ...
+    5,1024.0,27346.7111667,1010.17893612
+    1,2048.0,27411.8171667,1147.08779945
+
+    We can then analyze it with:
+
+    >>> python sca_tools/sca_fit.py --model_type usl \
+        --load_column threads --throughput_column throughput \
+        aggregated.csv
+
+    """
     df_spec = dat.read_frame(filename)
-    df_spec._load_col = load_column
-    df_spec._tput_col = throughput_column
-    df_spec._tput_err_col = throughput_errors_column
+    df_spec.load_col = load_column
+    df_spec.throughput_col = throughput_column
+    df_spec.error_col = throughput_errors_column
     if not output_directory:
         output_directory_ = futils.get_file_directory(filename)
     else:
