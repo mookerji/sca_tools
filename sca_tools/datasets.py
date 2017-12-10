@@ -17,6 +17,7 @@
 
 import numpy as np
 import pandas as pd
+import scipy.stats
 
 
 class Dataset(object):
@@ -73,6 +74,16 @@ class Dataset(object):
         return np.isclose(self.load.std(), 0)
 
     @property
+    def has_normal_throughput(self):
+        """Returns True if the dataset has a normally-distributed throughput,
+        False otherwise.
+
+        """
+        p_value, _ = scipy.stats.shapiro(self.throughput)
+        ALPHA = 0.05
+        return p_value > ALPHA
+
+    @property
     def throughput(self):
         """Returns float array of throughput data."""
         assert self._tput_col is not None
@@ -108,6 +119,23 @@ class Dataset(object):
     def weights(self):
         """Returns a weighting of throughput measurements."""
         return 1 / np.square(self.error)
+
+    def drop_outliers(self, z_score=3):
+        """
+        Drops, in-place, throughput outliers from the dataset.
+
+        Parameters
+        ----------
+        z_score : float
+
+        Returns
+        -------
+        True if outliers dropped, False otherwise.
+
+        """
+        zs = np.abs(scipy.stats.zscore(self._data.throughput))
+        self._data = self._data[zs < z_score]
+        return not (zs < z_score).all()
 
     def to_csv(self, filename):
         """Write dataset to a file.
@@ -169,6 +197,7 @@ def aggregate_frames(frames, load_column, throughput_column,
     records = []
     for frame in frames:
         assert frame.has_fixed_load
+        assert frame.has_normal_throughput
         records.append({
             load_column: frame.load.mean(),
             throughput_column: frame.throughput.mean(),

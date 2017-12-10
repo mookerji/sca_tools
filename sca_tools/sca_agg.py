@@ -35,9 +35,10 @@ logging.basicConfig(level=os.environ.get('LOG_LEVEL', 'INFO'))
 @click.option('--throughput_column', default='throughput')
 @click.option('--throughput_errors_column', default='throughput_stddev')
 @click.option('--output_directory', default=None)
+@click.option('--clean', default=True)
 @click.argument('filenames', nargs=-1)
 def main(load_column, throughput_column, throughput_errors_column,
-         output_directory, filenames):
+         output_directory, clean, filenames):
     """sca_agg merges results from independent benchmarking measurements
     into a single CSV file for use in sca_fit. It assumes (and checks)
     that a single CSV file contains multiple trial measurements of
@@ -110,6 +111,9 @@ def main(load_column, throughput_column, throughput_errors_column,
                 df_spec.load.std(),
             )
             continue
+        if clean:
+            if df_spec.drop_outliers():
+                logging.warn('Dropped some throughput outliers!')
         frames.append(df_spec)
     result = dat.aggregate_frames(frames, load_column, throughput_column,
                                   throughput_errors_column)

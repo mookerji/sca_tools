@@ -84,7 +84,7 @@ def main(load_column, throughput_column, throughput_errors_column, model_type,
         # within the realm of my understanding.
         model_fit = model.fit(data=df_spec.throughput.values,
                               load=df_spec.load.values, lambda_=1000,
-                              sigma_=0.1, kappa=0.001, weights=None)
+                              sigma_=0.1, kappa=0.001, weights=weights)
         graphs = usl.generate_graphs(model_fit, df_spec, title=basename,
                                      xlabel=load_column,
                                      ylabel=throughput_column)
