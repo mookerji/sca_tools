@@ -4,24 +4,34 @@
 [![codecov](https://codecov.io/gh/mookerji/sca_tools/branch/master/graph/badge.svg)](https://codecov.io/gh/mookerji/sca_tools)
 [![PyPI version](https://badge.fury.io/py/sca-tools.svg)](https://badge.fury.io/py/sca-tools)
 
-`sca_tools` is a Python library and set of command line utilities for
-quantifying software scalability, based on Neil Gunther's
-[Universal Scalability Law](http://www.perfdynamics.com/Manifesto/USLscalability.html).
+`sca_tools` analyzes software scalability benchmarking experiments,
+specifically measurements of throughput as a function of applied load
+or concurrency. It is a Python library and set of command line
+utilities and that will help you:
+- Model and quantify throughput bottlenecks in your application
+- Capacity plan
+- Compare performance benchmarks for regressions
 
-It's very much a work of progress, but currently includes:
+We rely on Neil Gunther's
+[Universal Scalability Law](http://www.perfdynamics.com/Manifesto/USLscalability.html)
+as a model and [lmfit](https://github.com/lmfit/lmfit-py) to perform
+model fitting. `sca_tools` differs from existing implementations (see
+[Related Work](#related-work)) in a few ways:
+- Emphasis on robust parameter estimation
+- Support for propagation of parameter uncertanties when computing
+  derived quantities, such as latency, queue size, etc.
+- Support for experimental measurement uncertainty
+- Written using Scientific Python libraries
+
+This is alpha software: use it at your **own risk** (e.g., don't use
+it to make business decisions). It's very much a **work in progress**,
+but currently includes:
 - Fitting routines to the USL and basic reporting around
   goodness-of-fit for USL's convention and coherence parameters.
 - Graph outputs for best fit model, best fit model confidence
   intervals, fit data, residuals, etc.
-- A command line tool to produce these models from CSV data
-
-`sca_tools` differs from existing implementations (see
-[Related Work](#relatedwork)) in a few ways:
-- Emphasis on robust parameter estimation
-- Support for propagation of parameter uncertanties when computing
-  derived quantities, such as latency, queue size, etc.
-- Support for measurement uncertainty
-- Written using Scientific Python libraries
+- Command line tools to produce these models from CSV data, as well
+  as manipulate and aggregate CSV data from computer experiments.
 
 ## Usage
 
