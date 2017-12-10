@@ -11,13 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""File utilities."""
 
 import os
 
 
 def get_file_directory(filename):
+    """Returns the directory containing a file."""
     return os.path.dirname(os.path.realpath(filename))
 
 
 def get_file_basename(filename):
+    """Remove the extension from a filename, returning its basename."""
     return os.path.splitext(os.path.basename(filename))[0]

@@ -1,3 +1,5 @@
+# pylint: disable=protected-access,redefined-outer-name,missing-docstring
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +23,7 @@ DEFAULT_PARAMS = {'lambda_': 90, 'sigma_': 0.03, 'kappa': 0.0001}
 
 
 def test_usl_func_eval():
+
     assert np.isclose(usl._usl_func(load=20, **DEFAULT_PARAMS), 1119.40298507)
     input_loads = np.arange(1, 100, 20)
     ans = np.array([
@@ -105,5 +108,5 @@ def test_queue_size_from_latency(usl_func_fit):
         7120.87591603,
         8225.61201396,
     ])
-    assert np.allclose(model.eval(usl_func_fit.params, latency=np.arange(1, 100, 20),),
-                       ans)
+    modeled = model.eval(usl_func_fit.params, latency=np.arange(1, 100, 20))
+    assert np.allclose(modeled, ans)

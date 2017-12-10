@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
 from click.testing import CliRunner
 
-import os
 import pytest
 
 import sca_tools.sca_fit as sca_fit
@@ -43,7 +46,7 @@ def test_main(datafiles):
         ]
         result = runner.invoke(sca_fit.main, args)
         assert result.exit_code == 0
-        assert len(result.output) > 0
+        assert result.output
         assert '----- Summary -----' in result.output
 
 

@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
 from click.testing import CliRunner
 
-import os
 import pytest
 
 import sca_tools.sca_agg as sca_agg

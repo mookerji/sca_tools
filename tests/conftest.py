@@ -1,3 +1,5 @@
+# pylint: disable=redefined-outer-name,missing-docstring
+
 # Copyright 2017 Bhaskar Mookerji
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +27,7 @@ def default_data():
     """From fixtures/specsdm91.csv
 
     """
-    df = pd.DataFrame.from_records({
+    frame = pd.DataFrame.from_records({
         1: {
             'load': 1.0,
             'throughput': 64.9
@@ -55,8 +57,8 @@ def default_data():
             'throughput': 1702.2
         }
     }, ).T
-    df['throughput_error'] = df['throughput'] * 0.05
-    return df
+    frame['throughput_error'] = frame['throughput'] * 0.05
+    return frame
 
 
 @pytest.fixture(scope="module")
@@ -69,6 +71,6 @@ def default_data_as_csv(default_data):
 
 @pytest.fixture(scope="module")
 def default_data_as_df(default_data_as_csv):
-    df = dset.read_frame(default_data_as_csv, 'load', 'throughput')
+    frame = dset.read_frame(default_data_as_csv, 'load', 'throughput')
     default_data_as_csv.seek(0)
-    return df
+    return frame
