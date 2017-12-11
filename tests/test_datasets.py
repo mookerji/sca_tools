@@ -62,3 +62,30 @@ def test_dataset_aggregate(datafiles):
         assert np.allclose(result.load.values, [64])
         assert np.allclose(result.throughput.values, [27506.885])
         assert np.allclose(result.error.values, [1493.63347])
+
+
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, 'sysbench_cpu_64_60_sec_2000_prime.txt.csv'),
+    on_duplicate='ignore',
+)
+def test_dataset_outliers(datafiles):
+    for datafile in datafiles.listdir():
+        frame = dset.read_frame(
+            datafile,
+            'threads',
+            'throughput',
+            'throughput_stddev',
+        )
+        assert frame._data.shape == (30, 4)
+        assert frame.drop_outliers()
+        assert frame._data.shape == (28, 4)
+        result = dset.aggregate_frames(
+            frames=[frame],
+            load_column='threads',
+            throughput_column='throughput',
+            throughput_errors_column='throughput_stddev',
+        )
+        assert isinstance(result, dset.Dataset)
+        assert np.allclose(result.load.values, [64])
+        assert np.allclose(result.throughput.values, [27114.65])
+        assert np.allclose(result.error.values, [38.226])
